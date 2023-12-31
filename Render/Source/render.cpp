@@ -82,14 +82,23 @@ void Render::renderLoop() {
 void Render::drawObjects() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  for (const Entity& e : physEngine->entities) {
+  for (auto it = physEngine->entities.begin(); it != physEngine->entities.end();) {
+    const Entity& e = *it;
+
+    if (e.position.x > windowWidth || e.position.x < 0 || e.position.y > windowHeight || e.position.y < 0) {
+      it = physEngine->entities.erase(it);
+      continue;
+    }
+
     glBegin(GL_QUADS);
-    glColor3f(255.0, 255.0, 255.0);
+    glColor3f(1.0, 1.0, 1.0);
     glVertex2f(e.position.x - 25.0, e.position.y - 25.0);
     glVertex2f(e.position.x + 25.0, e.position.y - 25.0);
     glVertex2f(e.position.x + 25.0, e.position.y + 25.0);
     glVertex2f(e.position.x - 25.0, e.position.y + 25.0);
     glEnd();
+
+    ++it;
   }
 
   SDL_GL_SwapWindow(window);
