@@ -30,8 +30,11 @@ void Engine::applyForce(Vector2D force, float deltaTime) {
 
 void Engine::updateSim(float deltaTime) {
   for (Entity &e : entities) {
-    Vector2D gravForce(0.0, e.mass * -ACCELERATION_TO_GRAVITY);
-    Engine::applyForce(e, gravForce, deltaTime);
+    e.velocity.x += e.acceleration.x * deltaTime;
+    e.velocity.y += e.acceleration.y * deltaTime;
+
+    e.position.x += e.velocity.x * deltaTime;
+    e.position.y += e.velocity.y * deltaTime;
   }
 }
 

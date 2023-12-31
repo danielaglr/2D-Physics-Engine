@@ -19,6 +19,5 @@ public:
   void updateSim(float deltaTime);
   void engineLog();
 
-private:
   std::vector<Entity> entities;
 };
